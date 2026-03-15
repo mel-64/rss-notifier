@@ -10,16 +10,17 @@ from pathlib import Path
 if not os.getenv("RSS_URL"):
     print("Error: RSS_URL environment variable is not set.")
     sys.exit(1)
-RSS_URL                     = os.getenv("RSS_URL")
-NTFY_URL                    = os.getenv("NTFY_URL", "https://ntfy.sh")
-NTFY_BEARER                 = os.getenv("NTFY_BEARER")
-NTFY_TOPIC                  = os.getenv("NTFY_TOPIC")
-REQUEST_TIMEOUT_SECONDS     = int(os.getenv("REQUEST_TIMEOUT_SECONDS", 300))
-TRY_COUNT                   = int(os.getenv("TRY_COUNT", 3))
-POLL_INTERVAL_SECONDS       = int(os.getenv("POLL_INTERVAL_SECONDS", 300))
-ERROR_BACKOFF_MAX_SECONDS   = max(POLL_INTERVAL_SECONDS, int(os.getenv("ERROR_BACKOFF_MAX_SECONDS", 900)))
-STATE_FILE_PATH             = os.getenv("STATE_FILE_PATH", "last_seen_item.json")
-STATE_FILE                  = Path(STATE_FILE_PATH)
+RSS_URL                         = os.getenv("RSS_URL")
+NTFY_URL                        = os.getenv("NTFY_URL", "https://ntfy.sh")
+NTFY_BEARER                     = os.getenv("NTFY_BEARER")
+NTFY_TOPIC                      = os.getenv("NTFY_TOPIC")
+REQUEST_TIMEOUT_SECONDS         = int(os.getenv("REQUEST_TIMEOUT_SECONDS", 10))
+OLLAMA_REQUEST_TIMEOUT_SECONDS  = int(os.getenv("OLLAMA_REQUEST_TIMEOUT_SECONDS", 300))
+TRY_COUNT                       = int(os.getenv("TRY_COUNT", 3))
+POLL_INTERVAL_SECONDS           = int(os.getenv("POLL_INTERVAL_SECONDS", 300))
+ERROR_BACKOFF_MAX_SECONDS       = max(POLL_INTERVAL_SECONDS, int(os.getenv("ERROR_BACKOFF_MAX_SECONDS", 900)))
+STATE_FILE_PATH                 = os.getenv("STATE_FILE_PATH", "last_seen_item.json")
+STATE_FILE                      = Path(STATE_FILE_PATH)
 
 try:
     STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
@@ -194,7 +195,7 @@ def get_release_category(session: requests.Session, release_note: str) -> dict |
             response = session.post(
                 f"{OLLAMA_CONF['url']}/generate",
                 json=payload,
-                timeout=REQUEST_TIMEOUT_SECONDS,
+                timeout=OLLAMA_REQUEST_TIMEOUT_SECONDS,
             )
             response.raise_for_status()
             model_text = response.json().get("response")
