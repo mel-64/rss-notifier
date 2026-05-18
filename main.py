@@ -60,6 +60,16 @@ OLLAMA_CONF = {
     },
 }
 
+config_url_dict = {
+    "NTFY_URL": NTFY_URL,
+    "OLLAMA_URL": OLLAMA_CONF["url"],
+}
+
+for name, url in config_url_dict.items():
+    if not (url.startswith("http://") or url.startswith("https://")):
+        print(f"Error: {name} must start with http:// or https://")
+        sys.exit(1)
+
 def get_seen_items() -> set[str]:
     try:
         item_string = STATE_FILE.read_text(encoding="utf-8").strip()
