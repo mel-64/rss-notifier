@@ -1,0 +1,15 @@
+services:
+  rss-notifier:
+    image: git.shork.ch/oci-images/rss-notifier:latest
+    user: 1000:1000
+    depends_on:
+      - ollama
+    volumes:
+      - ./last_seen_item.json:/app/last_seen_item.json
+
+  ollama:
+    image: ollama/ollama:latest
+    user: 1000:1000
+    cpus: 2
+    volumes:
+      - ./ollama-cache:/home/ubuntu/.ollama
