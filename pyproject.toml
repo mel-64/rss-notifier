@@ -1,6 +1,6 @@
 [project]
 name = "rss-notifier"
-version = "v0.2.2"
+version = "v0.2.3"
 description = "A simple RSS feed notifier that checks for updates and sends notifications."
 requires-python = ">=3.13"
 dependencies = [
