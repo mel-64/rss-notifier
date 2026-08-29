@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import time
 import json
@@ -172,6 +173,10 @@ def download_model(session: requests.Session, model: str) -> bool:
 
 
 def parse_model_response(text: str) -> dict | bool:
+    text = re.sub(r"<think>.*?</think>|</think>", "", text, flags=re.DOTALL).strip()
+    if fence := re.search(r"```(?:json)?\s*(.*?)\s*```", text, flags=re.DOTALL):
+        text = fence.group(1)
+
     try:
         parsed = json.loads(text)
     except json.JSONDecodeError:
