@@ -1,0 +1,10 @@
+name: Call build workflow
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: alpine-tools
+    uses: oci-images/rss-notifier/.forgejo/workflows/build.yaml@main
+
