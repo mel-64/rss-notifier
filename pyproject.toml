@@ -2,8 +2,8 @@
 name = "rss-notifier"
 version = "v0.2.3"
 description = "A simple RSS feed notifier that checks for updates and sends notifications."
-requires-python = ">=3.13"
+requires-python = "=3.13"
 dependencies = [
-    "feedparser>=6.0.12",
-    "requests>=2.32.5",
+    "feedparser=6.0.12",
+    "requests=2.32.5",
 ]
